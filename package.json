@@ -1,0 +1,19 @@
+{
+  "name": "generator-velirapp",
+  "version": "1.0.0",
+  "description": "",
+  "keywords": [
+    "yeoman-generator"
+  ],
+  "main": "app/index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "chalk": "^0.5.1",
+    "lodash": "^3.0.0",
+    "yeoman-generator": "^0.18.0"
+  }
+}
