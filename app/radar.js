@@ -54,6 +54,18 @@ radar.frameworks = [
 
 radar.libs = [
   {
+    name: 'Bourbon (SCSS)',
+    value: 'bourbon',
+    version: "*",
+    checked: true
+  },
+  {
+    name: 'bxSlider',
+    value: 'bxslider',
+    version: "*",
+    checked: false
+  },
+  {
     name: 'jQuery',
     value: 'jquery',
     version: "*",
@@ -66,11 +78,18 @@ radar.libs = [
     checked: true
   },
   {
-    name: 'bxSlider',
-    value: 'bxslider',
-    version: "*",
-    checked: false
+    name: "Modernizr",
+    value: 'modernizr',
+    version: '*',
+    checked: true
+  },
+  {
+    name: 'Neat (SCSS)',
+    value: 'neat',
+    version: '*',
+    checked: true
   }
 ];
+
 
 module.exports = radar;

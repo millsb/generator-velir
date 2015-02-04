@@ -2,12 +2,16 @@
 
 var yeoman  = require('yeoman-generator'),
     chalk   = require('chalk'),
+    path    = require('path'),
     _       = require('lodash'),
     radar   = require('./radar');
 
 var generator = yeoman.generators.Base.extend({
   constructor: function() {
     yeoman.generators.Base.apply(this, arguments);
+  },
+
+  initializing: {
   },
 
   prompting: function() {
@@ -80,33 +84,49 @@ var generator = yeoman.generators.Base.extend({
     }.bind(this));
   },
 
-  stylesheets: function() {
-    this.fs.copyTpl(this.templatePath('project.scss'), this._webRoot('styles/scss/project.scss'));
+  writing: {
+     stylesheets: function() {
+        this.fs.copyTpl(this.templatePath('project.scss'), this._webRoot('styles/scss/project.scss'));
+      },
+
+      bower: function() {
+        var bower = {
+          name: this.name,
+          private: true,
+          dependencies: {}
+        };
+
+        if (this.jsModules == 'requirejs') {
+          bower.dependencies.requirejs = radar.getVersion('requirejs');
+        }
+
+        this.jsFrameworks.forEach(function(lib) {
+          bower.dependencies[lib] = radar.getVersion(lib);
+        });
+
+        this.jsLibs.forEach(function(lib) {
+          bower.dependencies[lib] = radar.getVersion(lib);
+        });
+
+        this.fs.write(this.webRoot('bower.json'), JSON.stringify(bower, null, 2));
+      }
   },
 
-  bower: function() {
-    var bower = {
-      name: this.name,
-      private: true,
-      dependencies: {}
-    };
+  install: {
+    deps: function() {
+      // change working directory in order to install deps
+      var oldDir = process.cwd();
+      var newDir = path.join(this._webRoot(''));
+      process.chdir(newDir);
 
-    if (this.jsModules == 'requirejs') {
-      bower.dependencies.requirejs = radar.getVersion('requirejs');
+      this.bowerInstall(null, { verbose: true }, function() {
+        // change it back
+        process.chdir(oldDir);
+      });
+
     }
-
-    console.log(this.jsFrameworks);
-    this.jsFrameworks.forEach(function(lib) {
-      bower.dependencies[lib] = radar.getVersion(lib);
-    });
-
-    this.jsLibs.forEach(function(lib) {
-      console.log(lib + " " + radar.getVersion(lib));
-      bower.dependencies[lib] = radar.getVersion(lib);
-    });
-
-    this.fs.write(this.webRoot('bower.json'), JSON.stringify(bower, null, 2));
   },
+
 
   _webRoot: function(path) {
     if (this.sitecore) {
@@ -116,7 +136,7 @@ var generator = yeoman.generators.Base.extend({
     return this.destinationPath(path);
   }
 
-});
+}).bind(this);
 
 module.exports = generator;
 
