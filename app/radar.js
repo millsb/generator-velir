@@ -5,18 +5,27 @@ var radar = {};
 radar.getVersion = function(key) {
   var all = [].concat(radar.build, radar.modules, radar.frameworks, radar.libs);
   var version = _.result(_.find(all, { value: key }), 'version');
-  console.log(version);
   return version;
 }
 
 radar.build = [
   {
     name: "Grunt",
-    value: "grunt"
+    value: "grunt",
+    version: "*"
   },
   {
     name: "Gulp",
     value: 'gulp'
+    version: "*"
+  }
+];
+
+rada.grunt = [
+  {
+    name: "grunt-sass",
+    value: 'grunt-sass',
+    version: "*"
   }
 ];
 

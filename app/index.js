@@ -1,15 +1,12 @@
 'use strict';
 
-var yeoman  = require('yeoman-generator'),
+var generators  = require('yeoman-generator'),
     chalk   = require('chalk'),
     path    = require('path'),
     _       = require('lodash'),
     radar   = require('./radar');
 
-var generator = yeoman.generators.Base.extend({
-  constructor: function() {
-    yeoman.generators.Base.apply(this, arguments);
-  },
+module.exports = generators.Base.extend({
 
   initializing: {
   },
@@ -65,9 +62,9 @@ var generator = yeoman.generators.Base.extend({
       this.sitecore = answers.sitecore;
       this.buildTool = answers.buildTool;
       this.jsModules = answers.jsModules;
-      this.jsFrameworks = answers.jsFrameworks;
-      this.jsLibs = answers.jsLibs;
-      this.jsTests = answers.jsTests;
+      this.jsFrameworks = answers.jsFrameworks || [];
+      this.jsLibs = answers.jsLibs || [];
+      this.jsTests = answers.jsTests || [];
 
       if (this.sitecore) {
         this.webRoot = function(path) {
@@ -75,7 +72,7 @@ var generator = yeoman.generators.Base.extend({
         }.bind(this);
       } else {
         this.webRoot = function(path) {
-          return this.desintationPath(path);
+          return this.destinationPath(path);
         }.bind(this);
       }
 
@@ -86,7 +83,14 @@ var generator = yeoman.generators.Base.extend({
 
   writing: {
      stylesheets: function() {
-        this.fs.copyTpl(this.templatePath('project.scss'), this._webRoot('styles/scss/project.scss'));
+        this.fs.copyTpl(this.templatePath('project.scss'),
+                        this._webRoot('styles/scss/project.scss'));
+      },
+
+      html: function() {
+        var htmlDir = this.sitecore ? "html_templates/" : "";
+        this.fs.copyTpl(this.templatePath('index.html'),
+                        this._webRoot(htmlDir + 'index.html'));
       },
 
       bower: function() {
@@ -109,6 +113,30 @@ var generator = yeoman.generators.Base.extend({
         });
 
         this.fs.write(this.webRoot('bower.json'), JSON.stringify(bower, null, 2));
+      },
+
+      npm: function() {
+        var npm = {
+          name: _.slugify(this.name),
+          version: "0.0.0",
+          dependencies: [],
+          devDependencies: [],
+          engines: {
+            "node": ">=0.0.0"
+          }
+        }
+
+        if (this.grunt) {
+          radar.grunt.forEach(function(lib) {
+            npm.devDepdencies[lib] = radar.getVersion(lib);
+          });
+        }
+
+        if (this.gulp) {
+          radar.grunt.forEach(function(lib) {
+            npm.devDependencies[lib] = radar.getVersion(lib);
+          });
+        }
       }
   },
 
@@ -136,7 +164,6 @@ var generator = yeoman.generators.Base.extend({
     return this.destinationPath(path);
   }
 
-}).bind(this);
+});
 
-module.exports = generator;
 
