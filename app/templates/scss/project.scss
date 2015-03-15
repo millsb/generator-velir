@@ -1,0 +1,17 @@
+<% if (bourbon || neat) { %>
+  @import "../bower_components/bourbon/app/assets/stylesheets/_bourbon";
+<% } %>
+
+<% if (neat) { %>
+  @import "../bower_components/neat/app/assets/stylesheets/_neat-helpers";
+  @import "<%= name %>/_grid-settings";
+  @import "../bower_components/neat/app/assets/stylesheets/_neat";
+<% } %>
+
+@import "<%= name %>/_mixins";
+@import "<%= name %>/_general";
+@import "<%= name %>/_colors";
+@import "<%= name %>/_typography";
+@import "<%= name %>/_helper";
+@import "<%= name %>/_layout";
+@import "<%= name %>/_forms";

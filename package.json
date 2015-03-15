@@ -1,5 +1,5 @@
 {
-  "name": "generator-velirapp",
+  "name": "generator-velir",
   "version": "1.0.0",
   "description": "",
   "keywords": [
@@ -17,5 +17,11 @@
     "lodash": "^3.0.0",
     "mocha": "^2.1.0",
     "yeoman-generator": "^0.18.0"
+  },
+  "devDependencies": {
+    "gulp": "^3.8.11",
+    "gulp-mocha": "^2.0.0",
+    "gulp-spawn-mocha": "^2.0.1",
+    "mocha": "^2.1.0"
   }
 }

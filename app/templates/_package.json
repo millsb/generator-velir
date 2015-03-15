@@ -1,0 +1,13 @@
+{
+  "name": "<%= _.slugify(appname)",
+  "version": "0.0.0",
+  "dependencies": {},
+  "devDependencies": {
+    <% if (grunt) { %>
+
+    <% } %>
+  },
+  "engines": {
+    "node": ">=0.10.0"
+  }
+}

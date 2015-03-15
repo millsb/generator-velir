@@ -1,169 +1,150 @@
 'use strict';
 
-var generators  = require('yeoman-generator'),
-    chalk   = require('chalk'),
-    path    = require('path'),
-    _       = require('lodash'),
-    radar   = require('./radar');
+var generators = require('yeoman-generator'),
+	chalk = require('chalk'),
+	path = require('path'),
+	_ = require('lodash'),
+	radar = require('./radar');
 
 module.exports = generators.Base.extend({
 
-  initializing: {
-  },
+	initializing: {},
 
-  prompting: function() {
-    var done = this.async();
+	prompting: function () {
+		var done = this.async();
 
-    var prompts = [
-      {
-        type    : 'input',
-        name    : 'name',
-        message : 'What is the name of your project?',
-        default : 'velirapp'
-      },
-      {
-        type    : 'confirm',
-        name    : 'sitecore',
-        message : 'Is this a Sitecore project?'
-      },
-      {
-        type    : 'list',
-        name    : 'buildTool',
-        message : 'Choose a build tool',
-        choices : radar.build
-      },
-      {
-        type    : 'list',
-        name    : 'jsModules',
-        message : 'Choose a module system',
-        choices : radar.modules
-      },
-      {
-        type    : 'checkbox',
-        name    : 'jsFrameworks',
-        message : 'Choose javascript frameworks to include',
-        choices : radar.frameworks
-      },
-      {
-        type    : 'checkbox',
-        name    : 'jsLibs',
-        message : 'Choose other javascript libraries to include',
-        choices : radar.libs
-      },
-      {
-        type: 'confirm',
-        name: 'jsTests',
-        message: 'Include JS unit testing?'
-      }
-    ];
+		var prompts = [
+			{
+				type: 'input',
+				name: 'name',
+				message: 'What is the name of your project?',
+				default: 'velirapp'
+			},
+			{
+				type: 'confirm',
+				name: 'sitecore',
+				message: 'Is this a Sitecore project?',
+				default: true
+			},
+			{
+				type: 'list',
+				name: 'buildTool',
+				message: 'Choose a build tool',
+				choices: radar.choices('build')
+			},
+			{
+				type: 'list',
+				name: 'jsModules',
+				message: 'Choose a module system',
+				choices: radar.choices('modules')
+			},
+			{
+				type: 'checkbox',
+				name: 'jsFrameworks',
+				message: 'Choose javascript frameworks to include',
+				choices: radar.choices('frameworks')
+			},
+			{
+				type: 'checkbox',
+				name: 'jsLibs',
+				message: 'Choose other javascript libraries to include',
+				choices: radar.choices('libs')
+			},
+			{
+				type: 'confirm',
+				name: 'jsTests',
+				message: 'Include JS unit testing?'
+			}
+		];
 
-    this.prompt(prompts, function(answers) {
-      this.name = answers.name;
-      this.sitecore = answers.sitecore;
-      this.buildTool = answers.buildTool;
-      this.jsModules = answers.jsModules;
-      this.jsFrameworks = answers.jsFrameworks || [];
-      this.jsLibs = answers.jsLibs || [];
-      this.jsTests = answers.jsTests || [];
+		this.prompt(prompts, function (answers) {
+			this.name = answers.name;
+			this.sitecore = answers.sitecore;
+			this.buildTool = answers.buildTool;
+			this.jsModules = answers.jsModules;
+			this.jsFrameworks = answers.jsFrameworks || [];
+			this.jsLibs = answers.jsLibs;
+			this.jsTests = answers.jsTests || [];
 
-      if (this.sitecore) {
-        this.webRoot = function(path) {
-          return this.destinationPath("/web/Website/" + path);
-        }.bind(this);
-      } else {
-        this.webRoot = function(path) {
-          return this.destinationPath(path);
-        }.bind(this);
-      }
+			if (this.sitecore) {
+				this.destinationRoot('./web/Website');
+			}
+			done();
 
-      done();
+		}.bind(this));
+	},
 
-    }.bind(this));
-  },
+	writing: {
+		stylesheets: function () {
+			var destFolder = 'styles/' + this.name + '/';
+			this.fs.copyTpl(
+				this.templatePath('scss/project.scss'),
+				this.destinationPath('styles/' + this.name + '.scss'),
+				{
+					name: this.name,
+					neat: this.jsLibs.hasOwnProperty('neat'),
+					bourbon: this.jsLibs.hasOwnProperty('bourbon')
+				});
 
-  writing: {
-     stylesheets: function() {
-        this.fs.copyTpl(this.templatePath('project.scss'),
-                        this._webRoot('styles/scss/project.scss'));
-      },
+			this.copy('scss/project/_colors.scss', destFolder + '_colors.scss');
+			this.copy('scss/project/_forms.scss', destFolder + '_forms.scss');
+			this.copy('scss/project/_general.scss', destFolder + '_general.scss');
+			this.copy('scss/project/_mixins.scss', destFolder + '_mixins.scss');
+			this.copy('scss/project/_typography.scss', destFolder + '_typography.scss');
+		},
 
-      html: function() {
-        var htmlDir = this.sitecore ? "html_templates/" : "";
-        this.fs.copyTpl(this.templatePath('index.html'),
-                        this._webRoot(htmlDir + 'index.html'));
-      },
+		html: function () {
+			var htmlDir = this.sitecore ? "html_templates/" : "";
+			this.fs.copyTpl(this.templatePath('index.html'),
+				this.destinationPath(htmlDir + 'index.html'),
+				this);
+		},
 
-      bower: function() {
-        var bower = {
-          name: this.name,
-          private: true,
-          dependencies: {}
-        };
+		gulp: function () {
+			var pathPrefix = this.sitecore ? "../../" : "";
+			this.copy('gulp/_package.json', pathPrefix + 'tools/gulp/package.json');
+			this.copy('gulp/gulpfile.js', pathPrefix + 'tools/gulp/gulpfile.js');
+			this.copy('gulp/gulp-config.js', pathPrefix + 'tools/gulp/gulp-config.js');
+			this.copy('gulp/gulp-util.js', pathPrefix + 'tools/gulp/gulp-util.js');
+			this.copy('gulp/tasks/task-css.js', pathPrefix + 'tools/gulp/tasks/task-css.js');
+			this.copy('gulp/tasks/task-browserify.js', pathPrefix + 'tools/gulp/tasks/task-browserify.js');
+			this.copy('gulp/tasks/task-patternlab.js', pathPrefix + 'tools/gulp/tasks/task-patternlab.js');
+		},
 
-        if (this.jsModules == 'requirejs') {
-          bower.dependencies.requirejs = radar.getVersion('requirejs');
-        }
+		bower: function () {
+			var bower = {
+				name: this.name,
+				private: true,
+				dependencies: {}
+			};
 
-        this.jsFrameworks.forEach(function(lib) {
-          bower.dependencies[lib] = radar.getVersion(lib);
-        });
+			this.jsFrameworks.forEach(function (lib) {
+				bower.dependencies[lib] = radar.getVersion(lib);
+			});
 
-        this.jsLibs.forEach(function(lib) {
-          bower.dependencies[lib] = radar.getVersion(lib);
-        });
+			this.jsLibs.forEach(function (lib) {
+				bower.dependencies[lib] = radar.getVersion(lib);
+			});
 
-        this.fs.write(this.webRoot('bower.json'), JSON.stringify(bower, null, 2));
-      },
-
-      npm: function() {
-        var npm = {
-          name: _.slugify(this.name),
-          version: "0.0.0",
-          dependencies: [],
-          devDependencies: [],
-          engines: {
-            "node": ">=0.0.0"
-          }
-        }
-
-        if (this.grunt) {
-          radar.grunt.forEach(function(lib) {
-            npm.devDepdencies[lib] = radar.getVersion(lib);
-          });
-        }
-
-        if (this.gulp) {
-          radar.grunt.forEach(function(lib) {
-            npm.devDependencies[lib] = radar.getVersion(lib);
-          });
-        }
-      }
-  },
-
-  install: {
-    deps: function() {
-      // change working directory in order to install deps
-      var oldDir = process.cwd();
-      var newDir = path.join(this._webRoot(''));
-      process.chdir(newDir);
-
-      this.bowerInstall(null, { verbose: true }, function() {
-        // change it back
-        process.chdir(oldDir);
-      });
-
-    }
-  },
+			this.fs.write('bower.json', JSON.stringify(bower, null, 2));
+		},
 
 
-  _webRoot: function(path) {
-    if (this.sitecore) {
-      path = "/web/Website/" + path;
-    }
+		settings: function () {
+			this.copy('gitignore', '.gitignore');
+			this.copy('bowerrc', '.bowerrc');
+			this.copy('jshintrc', 'js/.jshintrc');
+		}
+	},
 
-    return this.destinationPath(path);
-  }
+	install: function () {
+		this.bowerInstall();
+	},
 
+	end: function () {
+		// do an npm install in the gulp dir
+		var gulpDir = path.join(__dirname, "tools/gulp");
+		this.spawnCommand('npm', ['install'], {cwd: gulpDir});
+	}
 });
-
 

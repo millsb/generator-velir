@@ -16,12 +16,12 @@ radar.build = [
   },
   {
     name: "Gulp",
-    value: 'gulp'
+    value: 'gulp',
     version: "*"
   }
 ];
 
-rada.grunt = [
+radar.grunt = [
   {
     name: "grunt-sass",
     value: 'grunt-sass',
@@ -83,13 +83,11 @@ radar.libs = [
   {
     name: 'LoDash',
     value: 'lodash',
-    version: "*",
     checked: true
   },
   {
     name: "Modernizr",
     value: 'modernizr',
-    version: '*',
     checked: true
   },
   {
@@ -99,6 +97,10 @@ radar.libs = [
     checked: true
   }
 ];
+
+radar.choices = function(key) {
+  return _.pick(radar[key], 'name', 'value', 'checked');
+}
 
 
 module.exports = radar;
