@@ -1,0 +1,6 @@
+<button type="{% if btn_type == "reset" %}reset{% else %}submit{% endif %}"
+        name="{% if btn_name %}{{ btn_name }}-btn{% else %}submit-btn{% endif %}"
+        value="{% if btn_text %}{{ btn_text }}{% else %}Search{% endif %}" class="btn {% if btn_type == "reset" %}btn--reset{% else %}{% endif %}
+        {% if btn_class %}{{ btn_class }}{% else %}{% endif %}">
+    {% if btn_text %}{{ btn_text }}{% else %}Search{% endif %}
+</button>

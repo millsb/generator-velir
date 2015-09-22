@@ -1,0 +1,9 @@
+<!-- NOTE:
+            `form` attribute of `search-heading__reset` needs to match `id` of corresponding `search-facet` form element
+
+            Not sure how to make this work with multiple `search-facet`s without JS. Because: "A form control can only be associated with a single <form>.": http://www.wufoo.com/html5/attributes/22-form.html
+-->
+<section class="search-heading">
+    <h1>Filter your results:</h1>
+    {% include "base-search-btn" with {'btn_text': 'Clear all', 'btn_name': 'reset', 'btn_type': 'reset', 'btn_class': 'search-heading__reset'} %}
+</section>

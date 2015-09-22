@@ -6,6 +6,14 @@ var generators = require('yeoman-generator'),
 	_ = require('lodash'),
 	radar = require('./radar');
 
+var dest = {
+	styles: 'web/Website/styles',
+	js: 'web/Website/js',
+	gulp: 'tools/gulp',
+	vendor: 'web/Website/vendor',
+	assets: 'web/Website/assets'
+};
+
 module.exports = generators.Base.extend({
 
 	initializing: {},
@@ -22,21 +30,18 @@ module.exports = generators.Base.extend({
 			},
 			{
 				type: 'confirm',
-				name: 'sitecore',
-				message: 'Is this a Sitecore project?',
-				default: true
+				name: 'patternlibrary',
+				message: 'Use the Velir Pattern Library?',
+				default: false
 			},
 			{
-				type: 'list',
-				name: 'buildTool',
-				message: 'Choose a build tool',
-				choices: radar.choices('build')
-			},
-			{
-				type: 'list',
-				name: 'jsModules',
-				message: 'Choose a module system',
-				choices: radar.choices('modules')
+				when: function(response) {
+					return !response.patternlibrary;
+				},
+				type: 'confirm',
+				name: 'patternlab',
+				message: 'Use an empty Pattern Lab?',
+				default: false
 			},
 			{
 				type: 'checkbox',
@@ -49,66 +54,73 @@ module.exports = generators.Base.extend({
 				name: 'jsLibs',
 				message: 'Choose other javascript libraries to include',
 				choices: radar.choices('libs')
-			},
-			{
-				type: 'confirm',
-				name: 'jsTests',
-				message: 'Include JS unit testing?'
 			}
 		];
 
 		this.prompt(prompts, function (answers) {
 			this.name = answers.name;
-			this.sitecore = answers.sitecore;
-			this.buildTool = answers.buildTool;
-			this.jsModules = answers.jsModules;
 			this.jsFrameworks = answers.jsFrameworks || [];
 			this.jsLibs = answers.jsLibs;
-			this.jsTests = answers.jsTests || [];
+			this.patternlab = answers.patternlab;
+			this.patternlibrary = answers.patternlibrary;
 
-			if (this.sitecore) {
-				this.destinationRoot('./web/Website');
-			}
 			done();
 
 		}.bind(this));
 	},
 
 	writing: {
-		stylesheets: function () {
-			var destFolder = 'styles/' + this.name + '/';
+		styles: function () {
+			var topFile;
+			var otherFiles;
+
+			if (this.patternlibrary) {
+				topFile = this.templatePath('patternlibrary/styles/patternlibrary.scss');
+				otherFiles = this.templatePath('patternlibrary/styles/patternlibrary/**/*.scss');
+			} else  {
+				topFile = this.templatePath('styles/project.scss');
+				otherFiles = this.templatePath('styles/project/**/*.scss');
+			}
+
 			this.fs.copyTpl(
-				this.templatePath('scss/project.scss'),
-				this.destinationPath('styles/' + this.name + '.scss'),
+				this.templatePath(topFile),
+				this.destinationPath(dest.styles + '/' + this.name + '.scss'),
 				{
 					name: this.name,
 					neat: this.jsLibs.hasOwnProperty('neat'),
 					bourbon: this.jsLibs.hasOwnProperty('bourbon')
 				});
 
-			this.copy('scss/project/_colors.scss', destFolder + '_colors.scss');
-			this.copy('scss/project/_forms.scss', destFolder + '_forms.scss');
-			this.copy('scss/project/_general.scss', destFolder + '_general.scss');
-			this.copy('scss/project/_mixins.scss', destFolder + '_mixins.scss');
-			this.copy('scss/project/_typography.scss', destFolder + '_typography.scss');
+			var destFolder = 'web/Website/styles/' + this.name;
+			console.log(otherFiles);
+			console.log(destFolder);
+			this.fs.copy(otherFiles, destFolder);
 		},
 
 		html: function () {
-			var htmlDir = this.sitecore ? "html_templates/" : "";
 			this.fs.copyTpl(this.templatePath('index.html'),
-				this.destinationPath(htmlDir + 'index.html'),
+				this.destinationPath('web/Website/html_templates/index.html'),
 				this);
 		},
 
+		patternLibrary: function() {
+			if (this.patternlibrary) {
+				this.fs.copy(this.templatePath('patternlibrary/**/*'),
+					this.desintationPath('web/Website/html_templates/lab'));
+			}
+		},
+
+		patternLab: function() {
+			if (!this.patternlibrary && this.patternlab) {
+				this.fs.copy(this.templatePath('patternlab/**/*'),
+					this.destinationPath('web/Website/html_templates/lab'));
+			}
+		},
+
+
 		gulp: function () {
-			var pathPrefix = this.sitecore ? "../../" : "";
-			this.copy('gulp/_package.json', pathPrefix + 'tools/gulp/package.json');
-			this.copy('gulp/gulpfile.js', pathPrefix + 'tools/gulp/gulpfile.js');
-			this.copy('gulp/gulp-config.js', pathPrefix + 'tools/gulp/gulp-config.js');
-			this.copy('gulp/gulp-util.js', pathPrefix + 'tools/gulp/gulp-util.js');
-			this.copy('gulp/tasks/task-css.js', pathPrefix + 'tools/gulp/tasks/task-css.js');
-			this.copy('gulp/tasks/task-browserify.js', pathPrefix + 'tools/gulp/tasks/task-browserify.js');
-			this.copy('gulp/tasks/task-patternlab.js', pathPrefix + 'tools/gulp/tasks/task-patternlab.js');
+			this.fs.copy(this.templatePath('gulp/**/*.js'),
+				this.destinationPath('tools/gulp'));
 		},
 
 		bower: function () {
@@ -126,25 +138,25 @@ module.exports = generators.Base.extend({
 				bower.dependencies[lib] = radar.getVersion(lib);
 			});
 
-			this.fs.write('bower.json', JSON.stringify(bower, null, 2));
+			this.fs.write('web/Website/vendor/bower.json', JSON.stringify(bower, null, 2));
 		},
 
 
 		settings: function () {
 			this.copy('gitignore', '.gitignore');
 			this.copy('bowerrc', '.bowerrc');
-			this.copy('jshintrc', 'js/.jshintrc');
+			this.copy('js/jshintrc', 'web/Website/js/.jshintrc');
 		}
 	},
 
 	install: function () {
-		this.bowerInstall();
+		//this.bowerInstall();
 	},
 
 	end: function () {
 		// do an npm install in the gulp dir
-		var gulpDir = path.join(__dirname, "tools/gulp");
-		this.spawnCommand('npm', ['install'], {cwd: gulpDir});
+		//var gulpDir = path.join(__dirname, "tools/gulp");
+		//this.spawnCommand('npm', ['install'], {cwd: gulpDir});
 	}
 });
 

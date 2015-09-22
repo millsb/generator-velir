@@ -1,0 +1,57 @@
+// this file is optional and is for settings that should not be checked into git.
+// to use, copy the contents into local.js
+
+module.exports = {
+
+    /**
+     * ENVIRONMENT
+     */
+
+    // Current build environment
+    env: 'dev',
+
+    /**
+     * DIRECTORY SETTINGS
+     */
+
+    // Our web root
+    root: '../../web/Website',
+
+    // Root of build destination
+    // NOTE: This directory WILL BE REMOVED AND REMADE
+    dest: '../../web/Website/dist',
+
+
+
+    /**
+     * SERVER SETTINGS
+     */
+
+    // Hostname to be used with browserSync for proxy.
+    // http://www.browsersync.io/docs/options/#option-proxy
+    // omit or set to false for static sites
+    //"hostname": "my-project.machine.velir.com",
+
+
+    // Port that browsersync will run on
+    // http://www.browsersync.io/docs/options/#option-port
+    "browserSyncPort": 9080,
+
+    // Proxy address that browsersync will use
+    // i.e., my-project.machine.velir.com -> localhost:9080
+
+    // What gulp task to run when you type "gulp"
+    "defaultTask": "dev"
+
+    /**
+     * TASK SETTINGS
+     */
+     taskConfig: {
+        js: {
+
+        },
+        css: {
+
+        }
+     }
+};

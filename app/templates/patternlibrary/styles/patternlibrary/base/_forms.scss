@@ -1,0 +1,191 @@
+// forms.scss
+// Define form styles here
+// variables
+$input-border: $grey-400;
+$input-border-selected: $grey-500;
+$input-shadow: $grey-300;
+
+// base styles
+// Text-based inputs
+// NOTE: uses http://bourbon.io/docs/#text-inputs
+// default state
+#{$all-text-inputs} {
+    display: inline-block;
+    padding: rem(4) rem(8);
+    border: 1px solid $input-border;
+    vertical-align: middle;
+    @include font(helvetica);
+    font-size: rem(13);
+    color: color(wireframe, 700);
+    box-sizing: border-box;
+    box-shadow: inset 0 1px 3px $input-shadow;
+    transition: border-color .35s;
+}
+
+// focus state
+#{$all-text-inputs-focus},
+#{$all-text-inputs-hover} {
+    outline: 0;
+    border-color: $input-border-selected;
+}
+
+// active state
+#{$all-text-inputs-active} {
+
+}
+// fieldsets and legends
+fieldset, legend{
+    @include zero;
+    position: relative;
+    min-width: 0;
+    border: 0;
+    -webkit-margin-start: 0;
+    -webkit-margin-end: 0;
+    -webkit-padding-before: 0;
+    -webkit-padding-start: 0;
+    -webkit-padding-end: 0;
+    -webkit-padding-after: 0;
+}
+// fieldsets
+fieldset{
+    padding: rem(36) rem(20) rem(10);
+}
+// legends
+legend{
+    top: rem(20);
+    display: table;
+    position: absolute;
+    font-weight: bold;
+    // first input group
+    & + .input-group{
+        margin-top: rem(8);
+    }
+}
+// NOTE: Removing in favor of `<button type="submit">` and `<button type="reset">` elements.
+// TODO: Remove during code cleanup
+
+// reset and submit inputs
+// input[type="reset"],
+// input[type="submit"] {
+//     @include font(helvetica);
+//     display: inline-block;
+//     vertical-align: middle;
+//     font-size: rem(15);
+//     line-height: 1.2;
+//     color: color(wireframe, 700);
+//     border: none;
+//     background: none;
+//     -webkit-appearance: none;
+//     -moz-appearance: none;
+//     &:focus {
+//         outline: none;
+//     }
+// }
+// reset inputs
+// input[type="reset"]{
+//     padding: rem(4) rem(0);
+//     font-size: rem(11);
+//     line-height: 1.5;
+//     text-decoration: underline;
+//     color: color(wireframe, 700);
+// }
+
+// submit inputs
+// input[type="submit"] {
+//     padding: rem(4) rem(20);
+//     border: 1px solid $input-border;
+//     background: color(wireframe, 200);
+//     &:hover,
+//     &:active {
+//         outline: 0;
+//         border-color: $input-border-selected;
+//     }
+// }
+
+// input groups
+.input-group {
+    margin-bottom: rem(20);
+
+    // set all inputs
+    #{$all-text-inputs},
+    button {
+        font-size: rem(15);
+        line-height: 1.2;
+    }
+}
+
+// submit controls
+.input-group--submit-controls{
+    .input-group_primary-action,
+    .input-group_secondary-action{
+        float: right;
+        input[type="reset"]{
+            font-size: rem(15);
+            line-height: 1.2;
+        }
+    }
+    .input-group_primary-action{
+        margin-left: rem(20);
+    }
+}
+
+// caps
+.cap {
+    display: table-cell;
+    position: relative;
+    width: 1%;
+    white-space: nowrap;
+    text-align: center;
+    vertical-align: middle;
+    outline: 1px solid $input-border;
+    outline-offset: -1px;
+    background: color(wireframe, 200);
+    transition: outline .35s;
+    z-index: 10;
+    &:hover,
+    &:active {
+        z-index: 30;
+        outline: 1px solid $input-border-selected;
+    }
+    // buttons and span within caps
+    button, span{
+        position: relative;
+        right: -1px;
+        width: 100%;
+        border-left: 0;
+    }
+    // right-aligned caps
+    &:last-child {
+        button, span{
+            right: auto;
+            left: -1px;
+            border-right: 0;
+            border-left: 1px solid #bdbdbd;
+            &:hover,
+            &:active {
+                outline: 0;
+                border-color: $input-border-selected;
+            }
+        }
+    }
+}
+// modifiers
+// button cap
+.cap--btn{
+    button{}
+}
+// span cap
+.cap--span{
+    span {
+        font-size: rem(15);
+        line-height: 1.2;
+        cursor: default;
+    }
+}
+// table-display for form elements
+.input-group.l-table {
+    & #{$all-text-inputs} {
+        position: relative;
+        z-index: 20;
+    }
+}

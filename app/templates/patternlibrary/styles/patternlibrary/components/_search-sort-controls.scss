@@ -1,0 +1,58 @@
+// search-sort-controls.scss
+// define search sort controls here
+
+// base
+.search-sort {
+    padding: rem(10) rem(20);
+    background-color: color(wireframe, white);
+    outline: 1px solid color(wireframe, 300);
+    overflow: hidden;
+    h1 {
+        @include zero;
+        display: inline-block;
+        font-size: rem(18);
+    }
+}
+
+// search sort control list
+.search-sort__control-list {
+    @include zero;
+    @include zero-list;
+    display: inline-block;
+    vertical-align: middle;
+    font-size: rem(13);
+
+    // list items
+    li {
+        @include zero;
+        display: inline-block;
+
+        // states
+        &.is-selected {
+            .btn {
+                background-color: color(wireframe, 300);
+            }
+        }
+        &.is-active {
+
+        }
+
+        // set icon opacity based on sort state
+        &.is-sorted-up {
+            .icon:last-child {
+                opacity: 0.35;
+            }
+        }
+        &.is-sorted-down {
+            .icon:first-child {
+                opacity: 0.35;
+            }
+        }
+    }
+}
+
+// search sort reset
+.search-sort__reset {
+    float: right;
+    font-size: rem(13);
+}

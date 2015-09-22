@@ -1,36 +1,77 @@
-'use strict';
+/**
+ *  Usage:
+ *      Once per computer: 
+ *         $ npm install -g gulp
+ *
+ *      Once per project, in gulp folder: 
+ *         $ npm install
+ *
+ *
+ *      Running clumped tasks (defined in this file) -- 
+ *      see tasks/utils.js config
+ *         $ gulp dev
+ *
+ *      Running single task (task defined in /tasks.  eg. /tasks/css.js)
+ *         $ gulp css            // will use the default config 
+ *         $ gulp css --env prod // will use the prod config
+ *
+ *      For details on setConfig, see "user supplied keys" in /tasks/utils.js
+**/
 
-var gulp        = require('gulp'),
-    paths       = require('./gulp-config').paths,
-    hostname    = require('./gulp-config').hostname,
-    browserSync = require('browser-sync');
-
-// Velir task modules
-require('./tasks/task-css');
-require('./tasks/task-browserify');
-require('./tasks/task-patternlab');
+// Include gulp and plugins
+var gulp    = require("gulp"),
+    utils   = require("./tasks/utils"),
+    notify  = require("gulp-notify"),
+    path    = require("path"),
+    config  = utils.loadConfig(); // initialize the config
 
 
-gulp.task('watch', function() {
-    gulp.watch(paths.scss + "/**/*.scss", ['css']);
-    gulp.watch(paths.js + "/**/*.js", ['browserify']);
-    gulp.watch(paths.root + "bower.json", ['css-vendor', 'browserify-vendor']);
-    gulp.watch(paths.html + "/lab/source/**/*.mustache", ['patternlab']);
-    gulp.watch(paths.html + "/lab/source/**/*.json", ['patternlab']);
-
-    var reload = browserSync.reload;
-
-    browserSync({
-        proxy: hostname,
-        injectChanges: true
-    });
-
-    gulp.watch([
-        paths.dist + "*.css",
-        paths.dist + "*.js",
-        paths.html + "/lab/public/*.html"
-    ]).on('change', reload);
+// set some defaults
+utils.setConfig({
+    root  : path.resolve("../app"),
+    dest  : path.resolve("../build"),
+    env   : ""
 });
 
-gulp.task('default', ['css', 'css-vendor', 'browserify', 'browserify-vendor', 'patternlab', 'watch']);
+
+// load the tasks
+utils.loadTasks(["js", "css", "copy", "bower"]);
+
+/**
+ * dev task
+ */
+gulp.task("dev", function(){
+
+    // set the dev config (cache in utils.js)
+    utils.setConfig({
+        env   : "dev",
+        watch : true
+    });
+
+    // build with this config 
+    utils.build(); 
+
+});
+
+/**
+ * prod task
+ */
+gulp.task("prod", function(){  
+
+    // set the prod config (cache in utils.js)
+    utils.setConfig({
+        env   : "prod",
+        watch : false
+    });
+
+    // build with this config
+    utils.build();
+
+});
+
+
+
+
+// Default Task (run when you run 'gulp'). dev envirnoment
+gulp.task("default", [config.local.defaultTask || "dev"]);
 

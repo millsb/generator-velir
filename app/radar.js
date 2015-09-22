@@ -6,7 +6,13 @@ radar.getVersion = function(key) {
   var all = [].concat(radar.build, radar.modules, radar.frameworks, radar.libs);
   var version = _.result(_.find(all, { value: key }), 'version');
   return version;
-}
+};
+
+radar.choices = function(key) {
+  return _.map(radar[key], function(collection) {
+    return _.pick(collection, 'name', 'value', 'checked');
+  });
+};
 
 radar.build = [
   {
@@ -98,9 +104,6 @@ radar.libs = [
   }
 ];
 
-radar.choices = function(key) {
-  return _.pick(radar[key], 'name', 'value', 'checked');
-}
 
 
 module.exports = radar;

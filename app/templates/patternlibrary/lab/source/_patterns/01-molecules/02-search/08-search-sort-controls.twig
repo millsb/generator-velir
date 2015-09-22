@@ -1,0 +1,29 @@
+<section class="search-sort">
+    <nav aria-labeledby="aria-label-sort" class="search-sort__control-nav" role="navigation">
+        <h1 id="aria-label-sort">Sort your results by:</h1>
+        <ol class="search-sort__control-list">
+            <li>
+                <a href="#" title="Relevance" class="btn btn--sort">Relevance</a>
+            </li>
+            <li class="is-selected">
+                <a href="#" title="Most Popular" class="btn btn--sort">Most Popular</a>
+            </li>
+            <li class="is-active is-sorted-up">
+                <a href="#" title="Alphabetical" class="btn btn--sort btn--icon-group">Alphabetical
+                    <div class="btn_icon-group">
+                        <svg class="icon icon-arrow_drop_up"><use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="../../images/svgdefs.svg#icon-arrow_drop_up"></use></svg>
+                        <svg class="icon icon-arrow_drop_down"><use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="../../images/svgdefs.svg#icon-arrow_drop_down"></use></svg>
+                    </div>
+                </a>
+            </li>
+            <li class="is-active is-sorted-down">
+                <a href="#" title="Date Published" class="btn btn--sort btn--icon-group">Date Published
+                    <div class="btn_icon-group">
+                        <svg class="icon icon-arrow_drop_up"><use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="../../images/svgdefs.svg#icon-arrow_drop_up"></use></svg>
+                        <svg class="icon icon-arrow_drop_down"><use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="../../images/svgdefs.svg#icon-arrow_drop_down"></use></svg>
+                    </div>
+                </a>
+            </li>
+        </ol>
+        {% include "base-search-btn" with {'btn_text': 'Clear all', 'btn_name': 'reset', 'btn_type': 'reset', 'btn_class': 'search-sort__reset'} %}
+</section>

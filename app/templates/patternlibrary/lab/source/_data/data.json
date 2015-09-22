@@ -1,0 +1,80 @@
+{
+	"key": "value",
+	"key2": "use this for variables you want to load globally",
+	"title": "Nullizzle shizznit velizzle, hizzle, suscipit own yo', gravida vizzle, arcu.",
+	"img": {
+		"avatar": {
+			"src": "http://placeimg.com/100/100/people",
+			"alt": "Avatar"
+		},
+		"square": {
+			"src": "http://placeimg.com/300/300/nature",
+			"alt": "Square"
+		},
+		"rectangle": {
+			"src": "http://placeimg.com/400/300/tech",
+			"alt": "Rectangle"
+		},
+		"landscape-4x3": {
+			"src": "http://placeimg.com/400/300/tech",
+			"alt": "4x3 Image"
+		},
+		"landscape-16x9": {
+			"src": "http://placeimg.com/640/360/tech",
+			"alt": "16x9 Image"
+		},
+		"wireframe_landscape_16x9":{
+			"src": "http://placehold.it/320x180",
+			"alt": "16x9 Image"
+		}
+	},
+	"headline": {
+		"short": "Vestibulum eget odio in.",
+		"medium": "Vestibulum eget odio in massa luctus imperdiet. Donec.",
+		"long": "Vestibulum eget odio in massa luctus imperdiet. Donec consequat orci a diam pellentesque mollis. Nulla nec."
+	},
+	"excerpt": {
+		"short": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Cras sed sapien quam.",
+		"medium": "Nullam consequat at metus nec gravida. Sed dictum nisl sit amet lobortis ultricies. Vivamus non venenatis enim, sed fringilla tellus. Suspendisse rutrum quam vitae leo tempus luctus.",
+		"long": "<p>Cras et dui mollis, tempus velit placerat, sodales tellus. Class aptent taciti sociosqu ad litora torquent per conubia nostra, per inceptos himenaeos. Quisque et venenatis sapien. Maecenas sem diam, lacinia in ipsum et, fermentum rutrum lacus.</p><p>Nulla facilisis, arcu ac facilisis tincidunt, tortor est congue ligula, eu adipiscing quam ligula ut purus. Suspendisse at gravida dolor. Vestibulum eget odio in massa luctus imperdiet. Donec consequat orci a diam pellentesque mollis.</p>"
+	},
+	"description": "Fizzle crazy tortor. Sed rizzle. Ass pimpin' dolor dapibizzle turpis tempizzle fo shizzle my nizzle. Maurizzle pellentesque its fo rizzle izzle turpis. Get down get down we gonna chung nizzle. Shizzlin dizzle eleifend rhoncizzle break it down. In yo ghetto platea dictumst. Bling bling dapibizzle. Curabitur break yo neck, yall fo, pretizzle eu, go to hizzle dope, own yo' vitae, nunc. Bizzle suscipizzle. Ass semper velit sizzle fo.",
+	"url": "https://abc.xyz/",
+	"name": {
+		"first": "Alec",
+		"firsti": "A",
+		"middle": "Janus",
+		"middlei": "J",
+		"last": "Trevelyan",
+		"lasti": "T"
+	},
+	"year": {
+		"long": "2015",
+		"short": "15"
+	},
+	"month": {
+		"long": "January",
+		"short": "Jan",
+		"digit": "01"
+	},
+	"dayofweek": {
+		"long": "Sunday",
+		"short": "Sun"
+	},
+	"day": {
+		"long": "01",
+		"short": "1",
+		"ordinal": "st"
+	},
+	"hour": {
+		"long": "06",
+		"short": "6",
+		"military": "06",
+		"ampm": "am"
+	},
+	"minute": {
+		"long": "Twenty",
+		"short": "20"
+	},
+	"seconds": "31"
+}

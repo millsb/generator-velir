@@ -1,0 +1,7 @@
+<a href="#"
+    title="{% if btn_text %}{{ btn_text }}{% else %}Button Text{% endif %}" class="btn
+    {% if btn_type == 'disabled' %}btn--disabled{% else %}{% endif %}
+    {% if btn_type == 'link' %}btn--link{% else %}{% endif %}"
+    {% if btn_type == 'disabled' %}aria-disabled="true"{% else %}{% endif %}>
+    {% if btn_text %}{{ btn_text }}{% else %}Button Text{% endif %}
+</a>

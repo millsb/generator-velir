@@ -1,0 +1,21 @@
+<div class="input-group {% if table == true %}l-table{% endif %}">
+{% if cap == 'left' %}
+{% include "base-search-input-cap" %}
+{% elseif cap == 'left' and cap_type %}
+{% include "base-search-input-cap" with {'cap_type': 'span'} %}
+{% else %}
+{% endif %}
+{% if full == true %}
+    {% include "base-search-input" with {'full': true} %}
+{% else %}
+    {% include "base-search-input" %}
+{% endif %}
+{% if cap == 'right' %}
+    {% include "base-search-input-cap" %}
+{% elseif cap == 'right' and cap_type %}
+    {% include "base-search-input-cap" with {'cap_type': 'span'} %}
+{% elseif cap == '' and cap_type == '' %}
+    {% include "base-search-btn" %}
+{% else %}
+{% endif %}
+</div>
