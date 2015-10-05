@@ -26,16 +26,8 @@ var gulp    = require("gulp"),
     config  = utils.loadConfig(); // initialize the config
 
 
-// set some defaults
-utils.setConfig({
-    root  : path.resolve("../app"),
-    dest  : path.resolve("../build"),
-    env   : ""
-});
-
-
 // load the tasks
-utils.loadTasks(["js", "css", "copy", "bower"]);
+utils.loadTasks(config.defaultTasks);
 
 /**
  * dev task

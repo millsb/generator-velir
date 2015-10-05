@@ -13,8 +13,8 @@ var gulp          = require("gulp"),
 utils.setTaskConfig("css", {
     default: {
 
-        src: config.root + "/scss/**/*.scss",
-        dest: config.dest + "/css/",
+        src: config.root + "/styles/projectname/*.scss",
+        dest: config.dest,
 
         filename: "index.css",
 
@@ -33,12 +33,12 @@ utils.setTaskConfig("css", {
             outputStyle: "compressed"
         }
     }
-});
+}, config.local.taskConfig.css || {});
 
 
 // register the watch
 utils.registerWatcher("css", [
-    config.root + "/scss/**/*.scss"
+    config.root + "/styles/**/*.scss"
 ]);
 
 

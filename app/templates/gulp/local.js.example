@@ -1,6 +1,14 @@
 // this file is optional and is for settings that should not be checked into git.
 // to use, copy the contents into local.js
 
+// Variables
+var webRoot = '../../web/Website';
+var destRoot = '../../web/Website/dist';
+var projectName = 'my-project';
+
+// CHANGE ME!
+var projectName = 'my-project';
+
 module.exports = {
 
     /**
@@ -15,12 +23,11 @@ module.exports = {
      */
 
     // Our web root
-    root: '../../web/Website',
+    root: webRoot,
 
     // Root of build destination
     // NOTE: This directory WILL BE REMOVED AND REMADE
-    dest: '../../web/Website/dist',
-
+    dest: destRoot,
 
 
     /**
@@ -46,12 +53,15 @@ module.exports = {
     /**
      * TASK SETTINGS
      */
+     loadedTasks: [],
      taskConfig: {
         js: {
-
+            src: [webRoot + '/js/**/*.js']
         },
         css: {
-
+            src: [webRoot + '/styles/' + projectName + '/' + 'projectName + '.scss']
+            dest: destRoot,
+            filename: projectName + '.css'
         }
      }
 };

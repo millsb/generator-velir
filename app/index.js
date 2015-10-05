@@ -92,13 +92,11 @@ module.exports = generators.Base.extend({
 				});
 
 			var destFolder = 'web/Website/styles/' + this.name;
-			console.log(otherFiles);
-			console.log(destFolder);
 			this.fs.copy(otherFiles, destFolder);
 		},
 
 		html: function () {
-			this.fs.copyTpl(this.templatePath('index.html'),
+			this.fs.copyTpl(this.templatePath('html/index.html'),
 				this.destinationPath('web/Website/html_templates/index.html'),
 				this);
 		},
@@ -106,7 +104,7 @@ module.exports = generators.Base.extend({
 		patternLibrary: function() {
 			if (this.patternlibrary) {
 				this.fs.copy(this.templatePath('patternlibrary/**/*'),
-					this.desintationPath('web/Website/html_templates/lab'));
+					this.destinationPath('web/Website/html_templates/lab'));
 			}
 		},
 
@@ -119,8 +117,19 @@ module.exports = generators.Base.extend({
 
 
 		gulp: function () {
-			this.fs.copy(this.templatePath('gulp/**/*.js'),
+			// copy config template
+			this.fs.copyTpl(this.templatePath('gulp/local.js'),
+				this.destinationPath('tools/gulp/local.js'),
+				{ projectName: this.name});
+
+			// copy normal files
+			this.fs.copy(this.templatePath('gulp/**/*'),
+				this.destinationPath('tools/gulp'), { ignore: '_local.js'});
+
+			// copy dotfiles
+			this.fs.copy(this.templatePath('gulp/**/.*'),
 				this.destinationPath('tools/gulp'));
+
 		},
 
 		bower: function () {

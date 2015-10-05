@@ -79,7 +79,7 @@ module.exports.setConfig = function setConfig(settings){
 // thisTaskConfig should be an object that has a property "default" with the default config
 // the thisTaskConfig object can also contain properties that match with any given environment
 // see config comment above 
-module.exports.setTaskConfig = function setTaskConfig(task, thisTaskConfig){
+module.exports.setTaskConfig = function setTaskConfig(task, thisTaskConfig, overrides){
 
     // make sure it's initialized
     config = this.loadConfig();
@@ -91,7 +91,7 @@ module.exports.setTaskConfig = function setTaskConfig(task, thisTaskConfig){
         throw new Error("Task config must provide a default config!");
     }
 
-    config.taskConfig[task] = thisTaskConfig;
+    config.taskConfig[task] = merge(thisTaskConfig, overrides);
 
     return true;
 
