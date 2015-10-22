@@ -3,7 +3,7 @@ var _ = require('lodash');
 var radar = {};
 
 radar.getVersion = function(key) {
-  var all = [].concat(radar.build, radar.modules, radar.frameworks, radar.libs);
+  var all = [].concat(radar.frameworks, radar.libs);
   var version = _.result(_.find(all, { value: key }), 'version');
   return version;
 };
@@ -14,43 +14,6 @@ radar.choices = function(key) {
   });
 };
 
-radar.build = [
-  {
-    name: "Grunt",
-    value: "grunt",
-    version: "*"
-  },
-  {
-    name: "Gulp",
-    value: 'gulp',
-    version: "*"
-  }
-];
-
-radar.grunt = [
-  {
-    name: "grunt-sass",
-    value: 'grunt-sass',
-    version: "*"
-  }
-];
-
-radar.modules = [
-  {
-    name: 'Globals (no module system)',
-    value: 'globals'
-  },
-  {
-    name: 'AMD (RequireJS)',
-    value: 'requirejs',
-    version: "*"
-  },
-  {
-    name: 'CommonJS (Browserify)',
-    value: 'browserify',
-    version: "*"
-  }
-];
 
 radar.frameworks = [
   {
@@ -72,7 +35,8 @@ radar.libs = [
     name: 'Bourbon (SCSS)',
     value: 'bourbon',
     version: "*",
-    checked: true
+    checked: true,
+    bowerIgnore: true
   },
   {
     name: 'bxSlider',
@@ -93,14 +57,16 @@ radar.libs = [
   },
   {
     name: "Modernizr",
-    value: 'modernizr',
-    checked: true
+    value: 'components/modernizr',
+    checked: true,
+    bowerIgnore: true
   },
   {
     name: 'Neat (SCSS)',
     value: 'neat',
     version: '*',
-    checked: true
+    checked: true,
+    bowerIgnore: true
   }
 ];
 

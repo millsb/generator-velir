@@ -16,8 +16,6 @@ utils.setTaskConfig("css", {
         src: config.root + "/styles/projectname/*.scss",
         dest: config.dest,
 
-        filename: "index.css",
-
         sass: {
             outputStyle: "nested"
             // includePaths: require("node-neat").includePaths
@@ -53,7 +51,6 @@ gulp.task("css", function() {
         .pipe(sass(css.sass))
         .pipe(autoprefixer(css.autoprefixer))
         .pipe(pixrem())
-        .pipe(concat(css.filename, {newLine: ""}))
         .pipe(rename({
             suffix: "-generated"
         }));

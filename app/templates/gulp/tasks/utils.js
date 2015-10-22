@@ -85,7 +85,7 @@ module.exports.setTaskConfig = function setTaskConfig(task, thisTaskConfig, over
     config = this.loadConfig();
 
     // initialize the taskConfig object if needed
-    if (!config.taskConfig) { config.taskConfig = {}; }
+    if (!config.taskConfig) { config.taskConfig = {} }
 
     if (!thisTaskConfig.hasOwnProperty("default")){
         throw new Error("Task config must provide a default config!");

@@ -32,7 +32,7 @@ utils.loadTasks(config.defaultTasks);
 /**
  * dev task
  */
-gulp.task("dev", function(){
+gulp.task("build", function(){
 
     // set the dev config (cache in utils.js)
     utils.setConfig({
@@ -48,7 +48,7 @@ gulp.task("dev", function(){
 /**
  * prod task
  */
-gulp.task("prod", function(){  
+gulp.task("watch", function(){
 
     // set the prod config (cache in utils.js)
     utils.setConfig({

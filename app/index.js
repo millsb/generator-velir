@@ -118,7 +118,7 @@ module.exports = generators.Base.extend({
 
 		gulp: function () {
 			// copy config template
-			this.fs.copyTpl(this.templatePath('gulp/local.js'),
+			this.fs.copyTpl(this.templatePath('gulp/_local.js'),
 				this.destinationPath('tools/gulp/local.js'),
 				{ projectName: this.name});
 
@@ -159,13 +159,17 @@ module.exports = generators.Base.extend({
 	},
 
 	install: function () {
-		//this.bowerInstall();
+		var gulpDir = path.join(this.destinationPath(dest.gulp));
+		var jsDir = this.destinationPath(dest.js);
+		var vendorDir = this.destinationPath(dest.vendor);
+		this.spawnCommand('npm', ['install'], {cwd: gulpDir});
+		this.spawnCommand('npm', ['install'], {cwd: jsDir});
+		this.spawnCommand('bower', ['install'], {cwd: vendorDir});
 	},
 
 	end: function () {
-		// do an npm install in the gulp dir
-		//var gulpDir = path.join(__dirname, "tools/gulp");
-		//this.spawnCommand('npm', ['install'], {cwd: gulpDir});
+		var gulpDir = path.join(this.destinationPath(dest.gulp));
+		this.spawnCommand('gulp', ['build'], { cwd: gulpDir });
 	}
 });
 

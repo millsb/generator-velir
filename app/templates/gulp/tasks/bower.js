@@ -33,7 +33,10 @@ utils.setTaskConfig("bower", {
 
         // to skip, set value to false or omit entirely
         // otherwise, pass options object (can be empty {})
-        minifyCSS: false
+        minifyCSS: false,
+
+        // list of package names to skip in bundle
+        ignorePackages: []
     },
 
     prod: {
@@ -64,7 +67,8 @@ gulp.task("bower", function(next){
     var bowerfiles = mainBowerFiles({
         checkExistence: true,
         paths: bower.root,
-        debugging: false
+        debugging: false,
+        overrides: getOverrides(bower.ignorePackages)
     });
 
     if (bowerfiles.length === 0){
@@ -99,6 +103,15 @@ gulp.task("bower", function(next){
     next();
 
 });
+
+function getOverrides(overrideList) {
+    var overrides = {};
+    overrideList.forEach(function(key) {
+       overrides[key] =  { ignore: true }
+    });
+
+    return overrides;
+}
 
 
 function filterByExtension(extension){  
