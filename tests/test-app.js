@@ -8,14 +8,7 @@ var expectedFiles = [
     ".gitignore",
     "web/Website/styles/testproj.scss",
     "web/Website/html_templates/index.html",
-    "web/Website/js/.jshintrc",
-    "tools/gulp/gulpfile.js",
-    "tools/gulp/gulp-config.js",
-    "tools/gulp/gulp-util.js",
-    "tools/gulp/package.json",
-    "tools/gulp/tasks/task-css.js",
-    "tools/gulp/tasks/task-browserify.js",
-    "tools/gulp/tasks/task-patternlab.js"
+    "web/Website/js/.jshintrc"
 ];
 
 describe('Velir App Generator:', function() {

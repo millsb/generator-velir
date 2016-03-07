@@ -30,17 +30,14 @@ module.exports = generators.Base.extend({
 			},
 			{
 				type: 'confirm',
-				name: 'patternlibrary',
-				message: 'Use the Velir Pattern Library?',
-				default: false
+				name: 'useGulp',
+				message: 'Use gulp?',
+				default: true
 			},
 			{
-				when: function(response) {
-					return !response.patternlibrary;
-				},
 				type: 'confirm',
 				name: 'patternlab',
-				message: 'Use an empty Pattern Lab?',
+				message: 'Use Pattern Lab?',
 				default: false
 			},
 			{
@@ -62,7 +59,7 @@ module.exports = generators.Base.extend({
 			this.jsFrameworks = answers.jsFrameworks || [];
 			this.jsLibs = answers.jsLibs;
 			this.patternlab = answers.patternlab;
-			this.patternlibrary = answers.patternlibrary;
+			this.useGulp = answers.useGulp;
 
 			done();
 
@@ -71,16 +68,8 @@ module.exports = generators.Base.extend({
 
 	writing: {
 		styles: function () {
-			var topFile;
-			var otherFiles;
-
-			if (this.patternlibrary) {
-				topFile = this.templatePath('patternlibrary/styles/patternlibrary.scss');
-				otherFiles = this.templatePath('patternlibrary/styles/patternlibrary/**/*.scss');
-			} else  {
-				topFile = this.templatePath('styles/project.scss');
-				otherFiles = this.templatePath('styles/project/**/*.scss');
-			}
+			var topFile = this.templatePath('styles/project.scss');
+			var otherFiles = this.templatePath('styles/project/**/*.scss');
 
 			this.fs.copyTpl(
 				this.templatePath(topFile),
@@ -99,37 +88,6 @@ module.exports = generators.Base.extend({
 			this.fs.copyTpl(this.templatePath('html/index.html'),
 				this.destinationPath('web/Website/html_templates/index.html'),
 				this);
-		},
-
-		patternLibrary: function() {
-			if (this.patternlibrary) {
-				this.fs.copy(this.templatePath('patternlibrary/**/*'),
-					this.destinationPath('web/Website/html_templates/lab'));
-			}
-		},
-
-		patternLab: function() {
-			if (!this.patternlibrary && this.patternlab) {
-				this.fs.copy(this.templatePath('patternlab/**/*'),
-					this.destinationPath('web/Website/html_templates/lab'));
-			}
-		},
-
-
-		gulp: function () {
-			// copy config template
-			this.fs.copyTpl(this.templatePath('gulp/_local.js'),
-				this.destinationPath('tools/gulp/local.js'),
-				{ projectName: this.name});
-
-			// copy normal files
-			this.fs.copy(this.templatePath('gulp/**/*'),
-				this.destinationPath('tools/gulp'), { ignore: '_local.js'});
-
-			// copy dotfiles
-			this.fs.copy(this.templatePath('gulp/**/.*'),
-				this.destinationPath('tools/gulp'));
-
 		},
 
 		bower: function () {
@@ -155,21 +113,20 @@ module.exports = generators.Base.extend({
 			this.copy('gitignore', '.gitignore');
 			this.copy('bowerrc', '.bowerrc');
 			this.copy('js/jshintrc', 'web/Website/js/.jshintrc');
+		},
+
+		gulp: function() {
+			this.composeWith('velir:gulp', { options: {
+				dest: dest.gulp,
+				projectName: this.name
+			}});
 		}
 	},
 
 	install: function () {
-		var gulpDir = path.join(this.destinationPath(dest.gulp));
-		var jsDir = this.destinationPath(dest.js);
 		var vendorDir = this.destinationPath(dest.vendor);
-		this.spawnCommand('npm', ['install'], {cwd: gulpDir});
-		this.spawnCommand('npm', ['install'], {cwd: jsDir});
 		this.spawnCommand('bower', ['install'], {cwd: vendorDir});
-	},
-
-	end: function () {
-		var gulpDir = path.join(this.destinationPath(dest.gulp));
-		this.spawnCommand('gulp', ['build'], { cwd: gulpDir });
 	}
+
 });
 
