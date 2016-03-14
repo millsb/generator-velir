@@ -8,10 +8,8 @@
   @import "../bower_components/neat/app/assets/stylesheets/_neat";
 <% } %>
 
-@import "<%= name %>/_mixins";
-@import "<%= name %>/_general";
-@import "<%= name %>/_colors";
-@import "<%= name %>/_typography";
-@import "<%= name %>/_helper";
-@import "<%= name %>/_layout";
-@import "<%= name %>/_forms";
+@import "<%= name %>/base/_mixins";
+@import "<%= name %>/base/_general";
+@import "<%= name %>/base/_colors";
+@import "<%= name %>/base/_typography";
+@import "<%= name %>/base/_forms";

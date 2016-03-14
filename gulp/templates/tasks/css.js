@@ -13,7 +13,7 @@ var gulp          = require("gulp"),
 utils.setTaskConfig("css", {
     default: {
 
-        src: config.root + "/scss/*.scss",
+        src: config.root + "/styles/*.scss",
         dest: config.dest,
 
         filename: "<%= projectName %>.css",

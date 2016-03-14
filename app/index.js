@@ -80,7 +80,12 @@ module.exports = generators.Base.extend({
         html: function () {
             this.fs.copyTpl(this.templatePath('html/index.html'),
                             this.destinationPath('web/Website/html_templates/index.html'),
-                            {jsLibs: { modernizr: false }});
+                            {name: this.name, jsLibs: { modernizr: false }});
+        },
+
+        js: function() {
+            this.fs.copyTpl(this.templatePath('js/main.js'),
+                            this.destinationPath('web/Website/js/main.js'), {});
         },
 
         bower: function() {

@@ -16,7 +16,7 @@ utils.setTaskConfig("js", {
     // dev/default settings
     default: {
 
-        src: config.root + "/js/index.js",
+        src: config.root + "/js/main.js",
         dest: config.dest,
 
         // js uglify options , to skip, set value to false or omit entirely
