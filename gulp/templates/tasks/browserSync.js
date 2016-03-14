@@ -6,7 +6,7 @@ var gulp           = require("gulp"),
 
 // browserSync settings
 var settings = {
-    port: config.local.browserSyncPort || 8080,
+    port: config.local.browserSyncPort || 8081,
     open: false, // or  "external"
     notify: false,
     ghostMode: false,
@@ -27,7 +27,7 @@ if (config.local.hostname) {
 }
 else {
     // http://www.browsersync.io/docs/options/#option-server
-    settings.server = config.dest;
+    settings.server = config.dest + '/..';
 }
 
 

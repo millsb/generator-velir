@@ -33,7 +33,7 @@ utils.setConfig({
 
 
 // load the tasks
-utils.loadTasks([<%= taskList.join(",") %>]);
+utils.loadTasks([<%- taskList %>]);
 
 /**
  * dev task
@@ -43,12 +43,26 @@ gulp.task("build", function(){
     // set the dev config (cache in utils.js)
     utils.setConfig({
         env   : "dev",
+        watch : false
+    });
+
+    // build with this config
+    utils.build();
+});
+
+/**
+ * dev task
+ */
+gulp.task("watch", function(){
+
+    // set the dev config (cache in utils.js)
+    utils.setConfig({
+        env   : "dev",
         watch : true
     });
 
     // build with this config
     utils.build();
-
 });
 
 /**
