@@ -27,7 +27,7 @@ if (config.local.hostname) {
 }
 else {
     // http://www.browsersync.io/docs/options/#option-server
-    settings.server = config.dest + '/..';
+    settings.server = config.root;
 }
 
 

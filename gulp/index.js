@@ -4,36 +4,18 @@ var generators = require('yeoman-generator'),
     chalk = require('chalk'),
     path = require('path'),
     _ = require('lodash'),
-    tasks = require('./tasks');
+    allTasks = require('../app/tasks');
 
 module.exports = generators.Base.extend({
 
     initializing: function() {
-    },
-
-    prompting: function () {
-        var done = this.async();
-
-        var prompts = [
-            {
-                type: 'checkbox',
-                name: 'tasks',
-                message: 'Which gulp tasks would you like to install?',
-                choices: tasks
-            }
-        ];
-
-        this.prompt(prompts, function (answers) {
-            this.tasks = answers.tasks;
-
-            done();
-
-        }.bind(this));
+        this.name = this.options.name;
+        this.tasks = this.options.tasks;
+        this.destPath = this.destinationPath(this.options.destPath);
     },
 
     writing: {
         gulp: function () {
-            var dest = this.options.dest;
 
             var dotFiles = [
                 'gitignore',
@@ -51,7 +33,7 @@ module.exports = generators.Base.extend({
             ];
 
             var taskFiles = this.tasks.map(function (task) {
-                var filename = _.find(tasks, { value: task }).file;
+                var filename = _.find(allTasks, { value: task }).file;
                 return 'tasks/' + filename;
             });
 
@@ -59,43 +41,40 @@ module.exports = generators.Base.extend({
             dotFiles.forEach(function (filename) {
                 _this.fs.copy(
                     _this.templatePath(filename),
-                    _this.destinationPath(dest + '/' + '.' + filename));
+                    path.join(_this.destPath, filename));
             });
 
             requiredFiles.forEach(function (filename) {
                 _this.fs.copy(
                     _this.templatePath(filename),
-                    _this.destinationPath(dest + '/' + filename));
-
+                    path.join(_this.destPath, filename));
             });
 
             templateFiles.forEach(function (filename) {
                 _this.fs.copyTpl(
                     _this.templatePath(filename),
-                    _this.destinationPath(dest + '/' + filename),
-                    {taskList: quoteArrayValues(_this.tasks), projectName: _this.options.projectName});
+                    path.join(_this.destPath, filename),
+                    {taskList: quoteArrayValues(_this.tasks), name: _this.name});
             });
 
             console.log(taskFiles);
             taskFiles.forEach(function (filename) {
                 _this.fs.copyTpl(
                     _this.templatePath(filename),
-                    _this.destinationPath(dest + '/' + filename),
-                    {taskList: quoteArrayValues(_this.tasks), projectName: _this.options.projectName });
+                    path.join(_this.destPath, filename),
+                    {taskList: quoteArrayValues(_this.tasks), name: _this.options.projectName });
             });
         }
     },
 
     install: function() {
         // Running tasks synchronously ensure console ouput maintains a semblence of order
-        this.spawnCommandSync('npm', ['install'], {cwd: this.options.dest});
+        this.spawnCommandSync('npm', ['install'], {cwd: this.destPath });
     },
 
     end: function () {
-        var gulpDir = path.join(this.destinationPath(this.options.dest));
-
         // Running tasks synchronously ensures console ouput maintains a semblence of order
-        this.spawnCommandSync('gulp', ['watch'], { cwd: gulpDir });
+        this.spawnCommandSync('gulp', ['watch'], { cwd: this.destPath });
     }
 });
 

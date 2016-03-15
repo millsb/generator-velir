@@ -16,7 +16,7 @@ utils.setTaskConfig("css", {
         src: config.root + "/styles/*.scss",
         dest: config.dest,
 
-        filename: "<%= projectName %>.css",
+        filename: "<%= name %>.css",
 
         sass: {
             outputStyle: "nested"

@@ -9,15 +9,13 @@ radar.getVersion = function(key, filteredBy ) {
 };
 
 radar.getIgnoreOverrides = function(filteredBy) {
-    var overrides = {};
     var filterPred = _.extend(filteredBy, { bowerIgnore: true });
     var filtered = radar.filtered(filterPred);
-    _.each(filtered, function(entry) {
+
+    return _.reduce(filtered, function(overrides, entry) {
         overrides[entry.value] = { ignore: true };
-    });
-
-    return overrides;
-
+        return overrides;
+    }, {});
 };
 
 radar.filtered = function(predicate) {

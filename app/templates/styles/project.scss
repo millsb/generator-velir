@@ -1,8 +1,8 @@
-<% if (bourbon || neat) { %>
+<% if (libs.bourbon || libs.neat) { %>
   @import "../bower_components/bourbon/app/assets/stylesheets/_bourbon";
 <% } %>
 
-<% if (neat) { %>
+<% if (libs.neat) { %>
   @import "../bower_components/neat/app/assets/stylesheets/_neat-helpers";
   @import "<%= name %>/_grid-settings";
   @import "../bower_components/neat/app/assets/stylesheets/_neat";

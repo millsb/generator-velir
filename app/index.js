@@ -4,7 +4,8 @@ var generators = require('yeoman-generator'),
     chalk = require('chalk'),
     path = require('path'),
     _ = require('lodash'),
-    radar = require('./../bower/radar');
+    radar = require('./radar'),
+    tasks = require('./tasks');
 
 var dest = {
     styles: 'web/Website/styles',
@@ -37,18 +38,32 @@ module.exports = generators.Base.extend({
                 default: false
             },
             {
-                type: 'confirm',
-                name: 'neat',
-                message: 'Use Bourbon/Neat for grids?',
-                default: false
+                type: 'checkbox',
+                name: 'frameworks',
+                message: 'Choose javascript frameworks to include',
+                choices: radar.choices('frameworks')
+            },
+            {
+                type: 'checkbox',
+                name: 'libs',
+                message: 'Choose other javascript libraries to include',
+                choices: radar.choices('libs')
+            },
+            {
+                type: 'checkbox',
+                name: 'tasks',
+                message: 'Which gulp tasks would you like to install?',
+                choices: tasks
             }
         ];
 
         this.prompt(prompts, function (answers) {
             this.name = answers.name;
-            this.neat = answers.neat;
             this.patternlab = answers.patternlab;
-            this.useGulp = answers.useGulp;
+            this.gulp = answers.gulp;
+            this.libs = answers.libs;
+            this.frameworks = answers.frameworks;
+            this.tasks = answers.tasks;
 
             done();
 
@@ -59,24 +74,23 @@ module.exports = generators.Base.extend({
         styles: function () {
             var topFile = this.templatePath('styles/project.scss');
             var otherFiles = this.templatePath('styles/project/**/*.scss');
+            var destFolder = dest.styles + "/" +  this.name;
 
             this.fs.copyTpl(
                 topFile,
-                this.destinationPath(dest.styles + '/' + this.name + '.scss'),
+                this.destinationPath(destFolder + "/" + this.name + '.scss'),
                 {
                     name: this.name,
-                    bourbon: this.neat,
-                    neat: this.neat,
+                    libs: this.libs
                 });
 
-            var destFolder = dest.styles + "/" +  this.name;
             this.fs.copy(otherFiles, destFolder);
         },
 
         html: function () {
             this.fs.copyTpl(this.templatePath('html/index.html'),
                             this.destinationPath(dest.html + '/index.html'),
-                            {name: this.name, jsLibs: { modernizr: false }});
+                            {name: this.name, libs: this.libs, frameworks: this.frameworks });
         },
 
         js: function() {
@@ -85,10 +99,14 @@ module.exports = generators.Base.extend({
         },
 
         bower: function() {
-            this.composeWith('velir:bower', { options: {
-                name: this.name,
-                vendorDir: this.destinationPath(dest.vendor)
-            }} );
+            this.composeWith('velir:bower', {
+                options: {
+                    name: this.name,
+                    libs: this.libs,
+                    frameworks: this.frameworks,
+                    destPath: dest.vendor
+                }}
+             );
         },
 
         settings: function () {
@@ -98,16 +116,19 @@ module.exports = generators.Base.extend({
         },
 
         gulp: function() {
-            this.composeWith('velir:gulp', { options: {
-                dest: dest.gulp,
-                projectName: this.name
-            }});
+            this.composeWith('velir:gulp', {
+                options: {
+                    name: this.name,
+                    destPath: dest.gulp,
+                    tasks: this.tasks
+                }
+            });
         },
 
         patternlab: function() {
             this.composeWith('velir:patternlab', { options: {
-                dest: dest.patternlab,
-                name: this.name
+                tasks: this.tasks,
+                dest: dest.patternlab
             }});
         }
     }
