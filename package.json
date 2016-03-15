@@ -15,7 +15,7 @@
     "chai": "^2.0.0",
     "chalk": "^0.5.1",
     "lodash": "^3.0.0",
-    "yeoman-generator": "^0.20.2",
+    "yeoman-generator": "^0.22.2",
     "gulp": "^3.8.11",
     "gulp-mocha": "^2.0.0",
     "gulp-spawn-mocha": "^2.0.1",

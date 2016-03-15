@@ -11,7 +11,9 @@ var dest = {
     js: 'web/Website/js',
     gulp: 'tools/gulp',
     vendor: 'web/Website/vendor',
-    assets: 'web/Website/assets'
+    assets: 'web/Website/assets',
+    html: 'web/Website/html_templates',
+    patternlab: 'web/Website/html_templates/lab'
 };
 
 module.exports = generators.Base.extend({
@@ -27,12 +29,6 @@ module.exports = generators.Base.extend({
                 name: 'name',
                 message: 'What is the name of your project?',
                 default: 'velirapp'
-            },
-            {
-                type: 'confirm',
-                name: 'useGulp',
-                message: 'Use gulp?',
-                default: true
             },
             {
                 type: 'confirm',
@@ -65,7 +61,7 @@ module.exports = generators.Base.extend({
             var otherFiles = this.templatePath('styles/project/**/*.scss');
 
             this.fs.copyTpl(
-                this.templatePath(topFile),
+                topFile,
                 this.destinationPath(dest.styles + '/' + this.name + '.scss'),
                 {
                     name: this.name,
@@ -73,13 +69,13 @@ module.exports = generators.Base.extend({
                     neat: this.neat,
                 });
 
-            var destFolder = 'web/Website/styles/' + this.name;
+            var destFolder = dest.styles + "/" +  this.name;
             this.fs.copy(otherFiles, destFolder);
         },
 
         html: function () {
             this.fs.copyTpl(this.templatePath('html/index.html'),
-                            this.destinationPath('web/Website/html_templates/index.html'),
+                            this.destinationPath(dest.html + '/index.html'),
                             {name: this.name, jsLibs: { modernizr: false }});
         },
 
@@ -95,8 +91,6 @@ module.exports = generators.Base.extend({
             }} );
         },
 
-
-
         settings: function () {
             this.copy('gitignore', '.gitignore');
             this.copy('bowerrc', '.bowerrc');
@@ -107,6 +101,13 @@ module.exports = generators.Base.extend({
             this.composeWith('velir:gulp', { options: {
                 dest: dest.gulp,
                 projectName: this.name
+            }});
+        },
+
+        patternlab: function() {
+            this.composeWith('velir:patternlab', { options: {
+                dest: dest.patternlab,
+                name: this.name
             }});
         }
     }
