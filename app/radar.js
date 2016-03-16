@@ -53,7 +53,7 @@ radar.libs = [
         version: "*",
         checked: true,
         bowerIgnore: true,
-        global: false
+        global: true
     },
     {
         name: 'bxSlider',
@@ -82,7 +82,7 @@ radar.libs = [
         version: '*',
         checked: true,
         bowerIgnore: true,
-        global: false
+        global: true
     }
 ];
 

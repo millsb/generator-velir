@@ -57,12 +57,11 @@ module.exports = generators.Base.extend({
                     {taskList: quoteArrayValues(_this.tasks), name: _this.name});
             });
 
-            console.log(taskFiles);
             taskFiles.forEach(function (filename) {
                 _this.fs.copyTpl(
                     _this.templatePath(filename),
                     path.join(_this.destPath, filename),
-                    {taskList: quoteArrayValues(_this.tasks), name: _this.options.projectName });
+                    {taskList: quoteArrayValues(_this.tasks), name: _this.name });
             });
         }
     },
@@ -74,7 +73,7 @@ module.exports = generators.Base.extend({
 
     end: function () {
         // Running tasks synchronously ensures console ouput maintains a semblence of order
-        this.spawnCommandSync('gulp', ['watch'], { cwd: this.destPath });
+        this.spawnCommandSync('gulp', ['build'], { cwd: this.destPath });
     }
 });
 

@@ -1,15 +1,15 @@
 <% if (libs.bourbon || libs.neat) { %>
-  @import "../bower_components/bourbon/app/assets/stylesheets/_bourbon";
+  @import "../../vendor/global/bower_components/bourbon/app/assets/stylesheets/_bourbon";
 <% } %>
 
 <% if (libs.neat) { %>
-  @import "../bower_components/neat/app/assets/stylesheets/_neat-helpers";
-  @import "<%= name %>/_grid-settings";
-  @import "../bower_components/neat/app/assets/stylesheets/_neat";
+  @import "../../vendor/global/bower_components/neat/app/assets/stylesheets/_neat-helpers";
+  @import "base/_grid-settings";
+  @import "../../vendor/global/bower_components/neat/app/assets/stylesheets/_neat";
 <% } %>
 
-@import "<%= name %>/base/_mixins";
-@import "<%= name %>/base/_general";
-@import "<%= name %>/base/_colors";
-@import "<%= name %>/base/_typography";
-@import "<%= name %>/base/_forms";
+@import "base/_mixins";
+@import "base/_general";
+@import "base/_colors";
+@import "base/_typography";
+@import "base/_forms";
