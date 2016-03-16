@@ -10,7 +10,7 @@ module.exports = generators.Base.extend({
         var dest = this.options.dest;
 
         this.fs.copy(this.templatePath('**/*'), this.destinationPath(dest));
-        this.fs.copyTpl(this.templatePath('source/_meta/_00-head.twig'), this.destinationPath(dest + '/source/_meta/_00-head'),
+        this.fs.copyTpl(this.templatePath('source/_meta/_00-head.twig'), this.destinationPath(dest + '/source/_meta/_00-head.twig'),
                         { name: this.options.name });
     }
 });

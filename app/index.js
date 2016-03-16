@@ -135,6 +135,7 @@ module.exports = generators.Base.extend({
         patternlab: function() {
             if (this.patternlab) {
                 this.composeWith('velir:patternlab', { options: {
+                    name: this.name,
                     tasks: this.tasks,
                     dest: dest.patternlab
                 }});
