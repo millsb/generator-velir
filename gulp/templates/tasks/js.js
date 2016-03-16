@@ -94,11 +94,14 @@ gulp.task("js", function(){
         .pipe(utils.drano())
         .pipe(browserifyIt)
         .pipe(sourcemaps.init({ loadMaps: true })) // loads map from browserify file
-        .pipe(gulpif((js.uglify), uglify(js.uglify)))
         .pipe(rename({
             suffix: "-generated"
         }))
         .pipe(sourcemaps.write("./"))
-        .pipe(gulp.dest(js.dest));
-
+        .pipe(gulp.dest(js.dest))
+        .pipe(gulpif((js.uglify), uglify(js.uglify)))
+        .pipe(gulpif((js.uglify), rename({
+            extname: '.min.js'
+        })))
+        .pipe(gulpif((js.uglify), gulp.dest(js.dest)));
 });

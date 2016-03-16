@@ -97,12 +97,16 @@ gulp.task("bower", function(next){
         // putting a ; between each file to avoid problems when a library doesn't end in ;
         .pipe(concat(bower.filename, { newLine: ";" }))
 
-        .pipe(gulpif((bower.uglify), uglify(bower.uglify)))
         .pipe(rename({
             suffix: "-generated"
         }))
         .pipe(sourcemaps.write("./")) // end sourcemaps
-        .pipe(gulp.dest(bower.dest));
+        .pipe(gulp.dest(bower.dest))
+        .pipe(gulpif((bower.uglify), uglify(bower.uglify)))
+        .pipe(gulpif((bower.uglify), rename({
+            extname: '.min.js'
+        })))
+        .pipe(gulpif((bower.uglify), gulp.dest(bower.dest)));
 
 });
 
