@@ -85,4 +85,4 @@ gulp.task("prod", function(){
 
 
 // Default Task (run when you run 'gulp'). dev envirnoment
-gulp.task("default", [config.local.defaultTask || "dev"]);
+gulp.task("default", [config.local.defaultTask || "build"]);
