@@ -74,7 +74,7 @@ module.exports = generators.Base.extend({
     writing: {
 
         html: function () {
-            this.composeWith('velir:html', {
+            this.composeWith('fedx:html', {
                 options: {
                     name: this.name,
                     libs: this.libs,
@@ -90,7 +90,7 @@ module.exports = generators.Base.extend({
         },
 
         styles: function() {
-            this.composeWith('velir:styles', {
+            this.composeWith('fedx:styles', {
                 options: {
                     name: this.name,
                     libs: this.libs,
@@ -108,7 +108,7 @@ module.exports = generators.Base.extend({
         },
 
         bower: function() {
-            this.composeWith('velir:bower', {
+            this.composeWith('fedx:bower', {
                 options: {
                     name: this.name,
                     libs: this.libs,
@@ -123,7 +123,7 @@ module.exports = generators.Base.extend({
         },
 
         gulp: function() {
-            this.composeWith('velir:gulp', {
+            this.composeWith('fedx:gulp', {
                 options: {
                     name: this.name,
                     destPath: dest.gulp,
@@ -134,7 +134,7 @@ module.exports = generators.Base.extend({
 
         patternlab: function() {
             if (this.patternlab) {
-                this.composeWith('velir:patternlab', { options: {
+                this.composeWith('fedx:patternlab', { options: {
                     name: this.name,
                     tasks: this.tasks,
                     dest: dest.patternlab
