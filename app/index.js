@@ -126,10 +126,12 @@ module.exports = generators.Base.extend({
         },
 
         patternlab: function() {
-            this.composeWith('velir:patternlab', { options: {
-                tasks: this.tasks,
-                dest: dest.patternlab
-            }});
+            if (this.patternlab) {
+                this.composeWith('velir:patternlab', { options: {
+                    tasks: this.tasks,
+                    dest: dest.patternlab
+                }});
+            }
         }
     }
 });
