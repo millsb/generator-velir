@@ -4,7 +4,7 @@
 
 <% if (libs.neat) { %>
   @import "../../vendor/global/bower_components/neat/app/assets/stylesheets/_neat-helpers";
-  @import "base/_grid-settings";
+  @import "base/_grid-settings"
   @import "../../vendor/global/bower_components/neat/app/assets/stylesheets/_neat";
 <% } %>
 

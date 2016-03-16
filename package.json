@@ -14,13 +14,13 @@
   "dependencies": {
     "chai": "^2.0.0",
     "chalk": "^0.5.1",
-    "lodash": "^3.0.0",
-    "yeoman-generator": "^0.22.2",
     "gulp": "^3.8.11",
     "gulp-mocha": "^2.0.0",
     "gulp-spawn-mocha": "^2.0.1",
-    "mocha": "^2.1.0"
+    "lodash": "^3.0.0",
+    "mkdirp": "^0.5.1",
+    "mocha": "^2.1.0",
+    "yeoman-generator": "^0.22.2"
   },
-  "devDependencies": {
-  }
+  "devDependencies": {}
 }

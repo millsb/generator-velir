@@ -4,6 +4,7 @@ var generators = require('yeoman-generator'),
     chalk = require('chalk'),
     path = require('path'),
     _ = require('lodash'),
+    mkdirp = require('mkdirp'),
     radar = require('./radar'),
     tasks = require('./tasks');
 
@@ -71,31 +72,39 @@ module.exports = generators.Base.extend({
     },
 
     writing: {
-        styles: function () {
-            var topFile = this.templatePath('styles/project.scss');
-            var otherFiles = this.templatePath('styles/project/**/*.scss');
-            var destFolder = dest.styles + "/" +  this.name;
-
-            this.fs.copyTpl(
-                topFile,
-                this.destinationPath(destFolder + "/" + this.name + '.scss'),
-                {
-                    name: this.name,
-                    libs: this.libs
-                });
-
-            this.fs.copy(otherFiles, destFolder);
-        },
 
         html: function () {
-            this.fs.copyTpl(this.templatePath('html/index.html'),
-                            this.destinationPath(dest.html + '/index.html'),
-                            {name: this.name, libs: this.libs, frameworks: this.frameworks });
+            this.composeWith('velir:html', {
+                options: {
+                    name: this.name,
+                    libs: this.libs,
+                    frameworks: this.frameworks,
+                    destPath: dest.html
+                }
+            });
+        },
+
+        assets: function() {
+            var destFolder = this.destinationPath(dest.assets);
+            mkdirp(path.join(destFolder, '/img'));
+        },
+
+        styles: function() {
+            this.composeWith('velir:styles', {
+                options: {
+                    name: this.name,
+                    libs: this.libs,
+                    destPath: dest.styles
+                }
+            })
         },
 
         js: function() {
-            this.fs.copyTpl(this.templatePath('js/main.js'),
-                            this.destinationPath('web/Website/js/main.js'), {});
+            this.composeWith('velir:js', {
+                options: {
+                    destPath: dest.js
+                }
+            });
         },
 
         bower: function() {
@@ -111,8 +120,6 @@ module.exports = generators.Base.extend({
 
         settings: function () {
             this.copy('gitignore', '.gitignore');
-            this.copy('bowerrc', '.bowerrc');
-            this.copy('js/jshintrc', 'web/Website/js/.jshintrc');
         },
 
         gulp: function() {
