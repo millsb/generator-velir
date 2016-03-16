@@ -1,0 +1,23 @@
+// general.scss
+// For universal plain tag styles. No classes or IDs
+
+img {
+  display: inline-block;
+  max-width: 100%;
+  height: auto;
+  vertical-align: middle;
+}
+
+// lists
+ul {
+  margin: 0;
+  padding: 0;
+  line-height: 1;
+  list-style: none;
+
+  li {
+    margin: 0;
+    padding: 0;
+    line-height: 1;
+  }
+}

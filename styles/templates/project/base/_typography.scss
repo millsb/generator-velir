@@ -1,0 +1,90 @@
+// typography.scss
+// Define typography styles here
+
+$base-font-size: 100% !default;
+$base-line-height: 150% !default;
+
+// default font weights
+$font-weight-normal: 400 !default;
+$font-weight-medium: 500 !default;
+$font-weight-semi-bold: 600 !default;
+$font-weight-bold: 700 !default;
+
+html, body {
+  font-size: $base-font-size;
+}
+
+// default body styles
+body {
+  line-height: 150%; // set to $base-line-height to take on browser default of 150%
+}
+
+// default paragraph styles
+p {
+  line-height: 1.6;
+  text-rendering: optimizeLegibility;
+}
+
+p:first-child {
+  margin-top: 0;
+}
+
+// default header styles
+h1, h2, h3, h4, h5, h6 {
+  font-weight: $font-weight-bold;
+  font-style: normal;
+  line-height: 1.4;
+  text-rendering: optimizeLegibility;
+}
+
+h1 {
+
+}
+
+h2 {
+
+}
+
+h3 {
+
+}
+
+h4 {
+
+}
+
+h5 {
+
+}
+
+h6 {
+
+}
+
+// typography defaults
+em {
+  font-style: italic;
+  line-height: inherit;
+}
+
+strong, b {
+  font-weight: $font-weight-bold;
+  line-height: inherit;
+}
+
+// lists
+ul, ol {
+}
+
+// default link styles
+a {
+  line-height: inherit;
+  text-decoration: none;
+  outline: none;
+  transition: color 0.2s;
+
+  &:hover,
+  &:focus {
+
+  }
+}
