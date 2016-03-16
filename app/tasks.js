@@ -30,15 +30,15 @@ module.exports = [
         checked: false
     },
     {
+        value: 'patternlab',
+        name: 'Generate a patternlab site',
+        file: 'patternlab.js',
+        checked: false
+    },
+    {
         value: 'browserSync',
         name: 'Run a development server with automatic refresh',
         file: 'browserSync.js',
         checked: true
     },
-    {
-        value: 'patternlab',
-        name: 'Generate a patternlab site',
-        file: 'patternlab.js',
-        checked: false
-    }
 ];
